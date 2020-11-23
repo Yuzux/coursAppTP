@@ -2,6 +2,7 @@ package com.example.myapplication;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -12,6 +13,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class Activity2 extends AppCompatActivity {
 
@@ -32,6 +42,56 @@ public class Activity2 extends AppCompatActivity {
 
         threadIsRunning = false;
 
+        final MediaPlayer kawaii = MediaPlayer.create(this, R.raw.o_kawaii_koto);
+
+        Button playKawaii = (Button) this.findViewById(R.id.button_play);
+        Button buttonParse = (Button) this.findViewById(R.id.button_Parse);
+
+        playKawaii.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                kawaii.start();
+            }
+        });
+
+        buttonParse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                jsonParse();
+            }
+        });
+    }
+
+    private void jsonParse() {
+        String url = "https://jsoneditoronline.org/#left=cloud.b85b29d3b54f4df6a83ea18a255d1821";
+
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            JSONArray jsonArray = response.getJSONArray("location");
+
+                            for(int i = 0; i <  jsonArray.length(); i++){
+                                JSONObject results = jsonArray.getJSONObject(i);
+
+                                int id = results.getInt("id");
+                                String Ville = results.getString("Ville");
+                                String Lat = results.getString("Lat");
+                                String Longi = results.getString("Longi");
+
+                                Log.e("DEVE0304", "" +String.valueOf(id) + ", " + Ville + ", " + Lat + ", " + Longi + "\n\n");
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        });
     }
 
 

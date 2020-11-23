@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".Activity2">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -124,6 +124,18 @@
             android:text="Exception generation"
             android:onClick="generateException"
             android:padding="10dp"/>
+
+        <Button
+            android:id="@+id/button_play"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Play" />
+
+        <Button
+            android:id="@+id/button_Parse"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Parse Json" />
 
     </LinearLayout>
 
